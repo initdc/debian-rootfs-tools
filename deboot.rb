@@ -1,5 +1,6 @@
 DEBIAN_REL = ["bullseye", "buster", "stretch", "sid", "bookworm"]
-ARCH = ["i386", "amd64", "armhf", "arm64", "mips64el", "ppc64el", "riscv64", "s390x"]
+# riscv64 is NOT supported by official, ref: https://www.debian.org/ports/
+ARCH = ["i386", "amd64", "armhf", "arm64", "mips64el", "ppc64el", "s390x"]
 
 def deboot (release, arch)
     `mkdir -p #{release}`
