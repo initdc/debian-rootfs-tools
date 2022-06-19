@@ -1,5 +1,7 @@
-DEBIAN_REL = ["bullseye", "buster", "stretch", "sid", "bookworm"]
-ARCH = ["i386", "amd64", "armhf", "arm64", "mips64el", "ppc64el", "riscv64", "s390x"]
+# DEBIAN_REL = ["bullseye", "buster", "stretch", "sid", "bookworm"]
+DEBIAN_REL = ["sid"]
+# ARCH = ["i386", "amd64", "armhf", "arm64", "mips64el", "ppc64el", "riscv64", "s390x"]
+ARCH = ["riscv64"]
 
 def deboot (release, arch)
     `mkdir -p #{release}`
@@ -7,7 +9,11 @@ def deboot (release, arch)
         `mkdir -p #{arch}`
         rootfs_dir = arch
         
-        cmd = "set -x; debootstrap --cache-dir=$PWD/../cache --foreign --arch #{arch} #{release} #{rootfs_dir}"
+        if arch == "riscv64"
+            cmd = "set -x; debootstrap --no-check-gpg --cache-dir=$PWD/../cache --foreign --arch #{arch} #{release} #{rootfs_dir} http://ftp.ports.debian.org/debian-ports"
+        else 
+            cmd = "set -x; debootstrap --cache-dir=$PWD/../cache --foreign --arch #{arch} #{release} #{rootfs_dir}"
+        end
         IO.popen(cmd) do |r|
             puts r.readlines
         end
