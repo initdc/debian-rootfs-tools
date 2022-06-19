@@ -12,6 +12,8 @@ def deboot (release, arch)
             puts r.readlines
         end
 
+        `chroot #{rootfs_dir} /bin/sh -c "rm -rf /var/cache/apt/* && rm -rf /var/lib/apt/*"`
+
         Dir.chdir(rootfs_dir) do 
             `tar -zcvf $PWD/../../output/debian_#{release}_#{arch}_$(date +%Y-%m-%d).tgz .`
         end
